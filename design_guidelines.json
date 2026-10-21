@@ -1,0 +1,175 @@
+{
+  "app_name": "TechronixHub India",
+  "personality": "1 iOS-Native Clean (Adapted for Android-first POS utility)",
+  "personality_one_liner": "A fast, professional, and hyper-legible business utility designed for rapid shop counter operations with minimal friction.",
+  "color": {
+    "light": {
+      "surface": "#FFFFFF",
+      "onSurface": "#0B132B",
+      "surfaceSecondary": "#F4F6F8",
+      "onSurfaceSecondary": "#1C2541",
+      "surfaceTertiary": "#E9ECEF",
+      "onSurfaceTertiary": "#3A506B",
+      "surfaceInverse": "#0B132B",
+      "onSurfaceInverse": "#FFFFFF",
+      "muted": "#6C757D",
+      "brand": "#1C4ED8",
+      "onBrand": "#FFFFFF",
+      "brandPrimary": "#1D4ED8",
+      "onBrandPrimary": "#FFFFFF",
+      "brandSecondary": "#3B82F6",
+      "onBrandSecondary": "#FFFFFF",
+      "brandTertiary": "#DBEAFE",
+      "onBrandTertiary": "#1E3A8A",
+      "accent": "#F97316",
+      "onAccent": "#FFFFFF",
+      "success": "#16A34A",
+      "onSuccess": "#FFFFFF",
+      "warning": "#EAB308",
+      "onWarning": "#FFFFFF",
+      "error": "#DC2626",
+      "onError": "#FFFFFF",
+      "info": "#0EA5E9",
+      "onInfo": "#FFFFFF",
+      "border": "#E5E7EB",
+      "borderStrong": "#D1D5DB",
+      "divider": "#F3F4F6"
+    },
+    "dark": {
+      "surface": "#0B132B",
+      "onSurface": "#F8FAFC",
+      "surfaceSecondary": "#1C2541",
+      "onSurfaceSecondary": "#F1F5F9",
+      "surfaceTertiary": "#2D3A56",
+      "onSurfaceTertiary": "#E2E8F0",
+      "surfaceInverse": "#F8FAFC",
+      "onSurfaceInverse": "#0B132B",
+      "muted": "#94A3B8",
+      "brand": "#3B82F6",
+      "onBrand": "#FFFFFF",
+      "brandPrimary": "#3B82F6",
+      "onBrandPrimary": "#FFFFFF",
+      "brandSecondary": "#60A5FA",
+      "onBrandSecondary": "#FFFFFF",
+      "brandTertiary": "#1E3A8A",
+      "onBrandTertiary": "#BFDBFE",
+      "accent": "#FB923C",
+      "onAccent": "#FFFFFF",
+      "success": "#22C55E",
+      "onSuccess": "#000000",
+      "warning": "#FACC15",
+      "onWarning": "#000000",
+      "error": "#EF4444",
+      "onError": "#FFFFFF",
+      "info": "#38BDF8",
+      "onInfo": "#000000",
+      "border": "#334155",
+      "borderStrong": "#475569",
+      "divider": "#1E293B"
+    }
+  },
+  "typography": {
+    "displayFontFamily": "System",
+    "textFontFamily": "System",
+    "scale": {
+      "sm": 12,
+      "base": 14,
+      "lg": 16,
+      "xl": 20,
+      "2xl": 24
+    }
+  },
+  "spacing": {
+    "rule": "Prioritize touch-friendly margins for POS environment. Large tap targets minimal 48pt spacing for CTAs.",
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 24,
+    "2xl": 32,
+    "3xl": 48
+  },
+  "radius_tokens": {
+    "sm": 4,
+    "md": 8,
+    "lg": 12,
+    "pill": 999
+  },
+  "shadow_tier": "1",
+  "navigation": "bottom_tabs",
+  "icon_set": "MaterialCommunityIcons",
+  "glassmorphism": {
+    "enabled": false,
+    "do's": [],
+    "dont's": ["Do not use blur or glass UI; POS needs absolute visibility and fast rendering on low-end Androids."]
+  },
+  "platform_libraries": {
+    "glass": {
+      "ios": "expo-glass-effect",
+      "android": "solid surfaceSecondary",
+      "low_end_android_fallback": "solid surfaceSecondary"
+    },
+    "image": "expo-image",
+    "blur": "expo-blur",
+    "bottom_sheet": "@gorhom/bottom-sheet",
+    "animation": "react-native-reanimated",
+    "gesture": "react-native-gesture-handler"
+  },
+  "screens": [
+    {
+      "name": "Dashboard",
+      "purpose": "Provide quick store stats and a grid of frequent actions (New Invoice, Add Stock, etc.) for fast access.",
+      "states": {
+        "loading": "Skeleton grids",
+        "empty": "No stats available yet",
+        "error": "Failed to load dashboard metrics"
+      },
+      "layout": "Top hero section with key stats (Today's Sales, Low Stock count) using brandPrimary and accent colors. Below, a 2-column or 3-column grid of large, touch-friendly action cards."
+    },
+    {
+      "name": "Catalogue",
+      "purpose": "Quickly search, filter, and view the massive 11k product list.",
+      "states": {
+        "loading": "List skeleton",
+        "empty": "No products match search criteria",
+        "error": "Database error while fetching products"
+      },
+      "layout": "Sticky top search bar with horizontal filter chips (Supplier, Category). Flat list of products with clear stock indicators (red if low stock)."
+    },
+    {
+      "name": "Invoices",
+      "purpose": "Create and manage GST invoices rapidly at the counter.",
+      "states": {
+        "loading": "Skeleton list",
+        "empty": "No invoices created yet",
+        "error": "Failed to load invoices"
+      },
+      "layout": "List of recent invoices with status tags. Floating Action Button (FAB) or prominent sticky button for 'New Invoice'. Builder uses step-by-step clear validation."
+    },
+    {
+      "name": "Settings",
+      "purpose": "Manage app preferences, backup/restore data, and shop details.",
+      "states": {
+        "loading": "N/A",
+        "empty": "N/A",
+        "error": "N/A"
+      },
+      "layout": "Standard grouped list layout with clear dividers. Destructive actions (like data reset) must have confirmation dialogs."
+    }
+  ],
+  "images": {
+    "dashboard_hero_bg": {
+      "url": "https://images.unsplash.com/photo-1498049794561-7780e7231661?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwxfHxlbGVjdHJvbmljcyUyMHN0b3JlfGVufDB8fHx8MTc5MjU1NDU1Mnww&ixlib=rb-4.1.0&q=85",
+      "alt": "Electronics hardware background"
+    }
+  },
+  "instructions_to_main_agent": [
+    "Use system fonts strictly to support the offline-first requirement; do not import Google Fonts.",
+    "Implement the 4 main sections as bottom tabs: Dashboard, Catalogue, Invoices, Settings.",
+    "Design with large tap targets (minimum 48pt) suitable for rapid shop counter operations.",
+    "Ensure 'accent' (orange) is used sparingly, primarily for critical alerts, low stock badges, or primary emphasis against the navy/blue theme.",
+    "Disable unnecessary animations; the app must feel instant and responsive.",
+    "Implement 'solid surfaceSecondary' fallbacks instead of glassmorphism to ensure performance on lower-end Android devices typical in POS settings.",
+    "Always provide a confirmation dialog before executing destructive actions."
+  ]
+}

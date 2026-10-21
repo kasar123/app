@@ -1,0 +1,37 @@
+{
+  "summary": "Comprehensive frontend-only testing of TechronixHub (Expo web preview, 390x844, no backend). Dashboard loads with 10997 catalogue records; all quick-* actions and testIDs present. Products tab: fuzzy search (esp32, BE03825, DAD099, 'arduno') works; supplier chip filters (Robodo/DNA Tech) and stock/HSN filters work; NO prices displayed anywhere in catalogue (verified no '2299' token). Product detail: set-hsn-button + prompt flow sets HSN 85176290 and shows VERIFIED; receive-stock-button increased shop-stock-qty to 5 PCS; stock-settings-button saved min=6 which triggered Low-stock badge; sale-stock-button with qty>stock shows error toast 'Only 5 in stock — cannot deduct 100'. HSN search returns the product. Invoice editor: intra-state totals (rate 2966.10 GST 18% - discount 500 round-off) = Grand ₹3,000.00 / CGST ₹266.95 / SGST ₹266.95, inter-state → IGST ₹533.90 (exact match). Add catalogue item picker works. finalize-invoice-button + confirm-ok-button issued number TXH/26-27/001 and view-mode shows record-payment, duplicate-invoice, cancel-invoice. Bill of Supply (doc-type-bos) shows no tax rows (grand=taxable=₹1,000). Rates-include-tax switch keeps grand = entered amount (₹1,000 with taxable backed-out to ₹847.46). Customers: add-customer-button → save-customer-button saves; invalid GSTIN shows field error; cleared GSTIN saves successfully. Reports: all 9 tabs (sales/inventory/low/out/replenish/register/outstanding/movements/productsales) render without crash. Import screen renders with pre-loaded Robodo/DNA import history. Duplicates: groups listed with duplicate-keep-N and duplicate-link-N. Backup: backup-save-button downloads techronixhub-backup-YYYYMMDD-HHMMSS.json without crash. Settings: edit business name, bank-ifsc-input invalid='BAD' → toast 'IFSC format looks wrong'; valid HDFC0001234 → 'Settings saved'; dashboard name updates to 'TEST SK Enterprises' and PERSISTS after reload. More tab: theme-toggle-light/dark/system all present and switch (Dark button becomes selected). exit-app-button triggers native confirm dialog with 'Save & Exit' / 'Cancel'. Supplier replenishment: inventory with low product → request-low-stock-button adds to draft, orders screen shows PR/26-27/001 (Robodo), order detail exposes export-pdf-button, export-excel-button, mark-requested-button, change-status-button, order-item-plus-0/minus-0, order-remarks-input. Back navigation via header-back-button works on all stack screens. No React Native red-screen errors; no console errors beyond informational logs.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {"flow": "orders / inventory add-low-stock", "issue": "add-low-stock-button and request-low-stock-button open a native React Native Alert ('Add N low/out-of-stock products?') that must be confirmed via confirm-ok-button to actually enqueue drafts. Review request implied a direct action; the flow works but needs the confirm step.", "affected_testIDs": ["add-low-stock-button", "request-low-stock-button", "confirm-ok-button"]}
+    ],
+    "design_issues": [
+      {"screen": "More / Theme", "issues": ["theme-toggle-dark selection updates but document.body background remains rgba(0,0,0,0) on web (inner RN views do flip to dark). Visible UI goes dark; just noting for consistency with native tests."]}
+    ],
+    "react_native_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "testID naming reference: the review request used 'customer-save-button' / 'settings-save-button' / 'business-ifsc-input' / 'item-save-button' / 'order-row-N qty plus/minus'. Actual testIDs implemented are 'save-customer-button', 'save-settings-button', 'bank-ifsc-input', 'order-item-plus-0' / 'order-item-minus-0', 'order-remarks-input'. Please align review doc or testIDs for future automation (not a bug).",
+    "post-received-button and order-item-received-0 are only visible after status is advanced to Confirmed/Partially received. Document this state-dependent visibility; current build is correct.",
+    "add-low-stock-button and inventory request-low-stock-button require confirm-ok-button on the native Alert before the draft request is created. Flow is correct; just confirm this is the intended UX for the one-tap scenario.",
+    "Optional: consider setting a background colour on the web body element when dark theme is active so page-level screenshots clearly reflect the theme."
+  ],
+  "critical_code_review_comments": [
+    "Catalogue search is responsive even at 10,997 items; fuzzy match returned expected rows for 'arduno' and partial SKU lookups.",
+    "Rupee totals correctly use banker/half-up rounding — ₹2,966.10 × 1.18 - 500 round-off = ₹3,000.00; CGST/SGST equal halves ₹266.95 each; IGST sum ₹533.90.",
+    "Inclusive-of-tax switch correctly reverse-calculates taxable (₹847.46 for ₹1,000 incl 18%).",
+    "Invoice number sequence TXH/26-27/001 matches FY 26-27 convention; BoS and Tax Invoice flows co-exist.",
+    "No supplier prices (e.g. 2299 for BE03825) leaked anywhere in catalogue or product detail — compliance confirmed.",
+    "Business settings persist across hard page reload (expo web preview using browser storage as expected).",
+    "No deprecated Expo packages flagged in current session; no red-screen or page errors."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (frontend-only)", "frontend": "100% of exercised flows passing"},
+  "seed_data_creation": "In-browser seeds created during tests: product BE03825 received 5 then 2 units, min-stock 6 then 10, HSN 85176290 verified; invoices TXH/26-27/001 (plus a draft); customer 'TEST Cust Z'; business settings name 'TEST SK Enterprises' + IFSC HDFC0001234; supplier request PR/26-27/001 (Robodo). All data is browser-local and cleared per fresh context.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "App is a frontend-only Expo web preview; no backend/API is used. Each fresh browser context resets local data (catalogue of 10997 is bundled). Use mobile viewport 390x844. Native React Native Alerts expose confirm-ok-button / prompt-input / prompt-ok-button testIDs. Correct testIDs for key saves are save-customer-button, save-settings-button; bank fields are bank-ifsc-input. Order qty controls are order-item-plus-0 / order-item-minus-0. post-received-button appears only after advancing status to Partially received / Confirmed.",
+  "rca_of_issue": "No defects reproduced. Earlier failing attempts were due to using the review-request testID aliases (customer-save-button, settings-save-button, business-ifsc-input) that are not present in the implementation; once the actual testIDs were used, all flows passed. Supplier-request creation also required the native-Alert confirm-ok-button, which the review request did not explicitly mention."
+}
