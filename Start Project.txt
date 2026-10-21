@@ -1,0 +1,194 @@
+# React Expo + FastAPI + MongoDB App
+
+A full-stack application built with **React Native, Expo, TypeScript, FastAPI, and MongoDB**. The frontend supports web preview and mobile development through Expo.
+
+## 🚀 Tech Stack
+
+### Frontend
+- React Native
+- Expo
+- Expo Router
+- TypeScript
+- Yarn
+
+### Backend
+- Python
+- FastAPI
+- Uvicorn
+- Pydantic
+- Motor (asynchronous MongoDB driver)
+
+### Database
+- MongoDB
+
+## 📁 Project Structure
+
+```text
+app-main/
+├── backend/
+│   ├── server.py
+│   ├── requirements.txt
+│   ├── pytest.ini
+│   └── .env.example
+├── frontend/
+│   ├── app/
+│   ├── src/
+│   ├── package.json
+│   └── app.json
+├── .gitignore
+└── README.md
+```
+
+*The structure above is illustrative. Actual files may vary.*
+
+## ✅ Prerequisites
+
+Install the following software:
+
+- [Python](https://www.python.org/downloads/)
+- [Node.js LTS](https://nodejs.org/)
+- [Yarn](https://yarnpkg.com/)
+- [MongoDB Community Server](https://www.mongodb.com/try/download/community)
+- [Visual Studio Code](https://code.visualstudio.com/)
+
+## ⚙️ Installation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/YOUR-USERNAME/app-main.git
+cd app-main
+```
+
+Replace `YOUR-USERNAME` with your GitHub username.
+
+### 2. Configure the backend
+
+Open a terminal in the project root and run:
+
+```bash
+cd backend
+python -m venv .venv
+```
+
+Activate the virtual environment on Windows PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Install the Python dependencies:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+### 3. Configure environment variables
+
+Create a `.env` file inside the `backend/` directory:
+
+```env
+MONGO_URL=mongodb://127.0.0.1:27017
+DB_NAME=app_database
+```
+
+Ensure that MongoDB is installed and running before using database endpoints.
+
+**Security:** Never commit `.env` files, database credentials, API keys, or other secrets to GitHub.
+
+### 4. Start the backend
+
+From the `backend/` directory, run:
+
+```bash
+python -m uvicorn server:app --host 127.0.0.1 --port 8001 --reload
+```
+
+Backend URLs:
+
+- Health check: http://127.0.0.1:8001/health
+- API documentation: http://127.0.0.1:8001/docs
+- API root: http://127.0.0.1:8001/api/
+
+### 5. Configure the frontend
+
+Open a second terminal:
+
+```bash
+cd frontend
+yarn install
+```
+
+Start the Expo development server:
+
+```bash
+yarn expo start --port 3000
+```
+
+Follow the Expo terminal instructions to open the web preview or test on a compatible mobile device.
+
+## 🔌 API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/health` | Backend health check |
+| GET | `/api/` | API welcome message |
+| POST | `/api/status` | Create a status check |
+| GET | `/api/status` | Retrieve status checks |
+
+The status endpoints use MongoDB to store and retrieve records.
+
+## 🧪 Testing
+
+Install backend dependencies and run the available tests from the project root, if the test suite is configured:
+
+```bash
+python -m pytest -c backend/pytest.ini tests
+```
+
+For frontend type checking, run:
+
+```bash
+cd frontend
+yarn tsc --noEmit
+```
+
+## 🔐 Security Notes
+
+- Keep environment variables and credentials private.
+- Do not upload `.env`, `.venv`, `node_modules`, or generated build files.
+- Use appropriate database access controls in production.
+- Configure CORS with trusted origins before production deployment.
+- Use HTTPS and secure secrets management when deploying publicly.
+
+## 🛠️ Troubleshooting
+
+**`KeyError: 'MONGO_URL'`**
+
+Check that `backend/.env` exists and contains `MONGO_URL` and `DB_NAME`.
+
+**MongoDB connection errors**
+
+Ensure MongoDB is running and the connection string is correct.
+
+**`uvicorn: command not found`**
+
+Activate the Python virtual environment and run:
+
+```bash
+python -m uvicorn server:app --reload --port 8001
+```
+
+**Frontend dependency errors**
+
+Check the installed Node.js and Yarn versions, then install dependencies from the `frontend/` directory.
+
+## 📄 License
+
+No license has been specified yet. Add an appropriate license before distributing or reusing this project.
+
+## 👨‍💻 Author
+
+**YOUR NAME**
+
+GitHub: [YOUR-USERNAME](https://github.com/YOUR-USERNAME)
